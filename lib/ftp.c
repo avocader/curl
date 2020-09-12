@@ -2272,6 +2272,10 @@ static CURLcode ftp_state_size_resp(struct connectdata *conn,
     (void)curlx_strtoofft(fdigit, NULL, 0, &filesize);
 
   }
+  else if(ftpcode == 550) { /* "No such file or directory" */
+    failf(data, "The file does not exist");
+    return CURLE_FTP_COULDNT_RETR_FILE;
+  }
 
   if(instate == FTP_SIZE) {
 #ifdef CURL_FTP_HTTPSTYLE_HEAD
